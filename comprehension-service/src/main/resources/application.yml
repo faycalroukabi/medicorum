@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: comprehension-service
+
+  data:
+    mongodb:
+      database: comprehension-mongo-db
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+          configuration:
+            key:
+              serializer: org.apache.kafka.common.serialization.StringSerializer
+
+server:
+  port: 9045
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
