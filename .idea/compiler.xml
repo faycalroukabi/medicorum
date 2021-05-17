@@ -10,6 +10,7 @@
         <module name="discorvery-service" />
         <module name="auth-service" />
         <module name="comprehension-service" />
+        <module name="medicorum" />
         <module name="discussion-service" />
       </profile>
     </annotationProcessing>
@@ -18,6 +19,7 @@
       <module name="comprehension-service" target="1.8" />
       <module name="discorvery-service" target="1.8" />
       <module name="discussion-service" target="1.8" />
+      <module name="medicorum" target="8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
