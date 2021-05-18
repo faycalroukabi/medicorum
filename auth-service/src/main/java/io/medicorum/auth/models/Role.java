@@ -21,4 +21,6 @@ public enum Role {
     public static Stream<Role> stream(){
         return Stream.of(Role.values());
     }
+
+
 }
