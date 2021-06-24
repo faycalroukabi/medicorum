@@ -2,8 +2,12 @@ package io.medicorum.auth.messaging;
 
 import io.medicorum.auth.models.User;
 import io.medicorum.auth.payload.UserEventPayload;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 
+@Slf4j
 public class UserEventSender {
 
     private UserEventStream channels;
@@ -11,7 +15,7 @@ public class UserEventSender {
     public UserEventSender(UserEventStream channels) {
         this.channels = channels;
     }
-/*
+
     public void sendUserCreated(User user) {
         log.info("sending user created event for user {}", user.getUsername());
         sendUserChangedEvent(convertTo(user, UserEventType.CREATED));
@@ -57,5 +61,5 @@ public class UserEventSender {
                 .email(user.getEmail())
                 .displayName(user.getUserProfile().getDisplayName())
                 .profilePictureUrl(user.getUserProfile().getProfilePictureUrl()).build();
-    }*/
+    }
 }

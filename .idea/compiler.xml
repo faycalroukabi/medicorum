@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="discorvery-service" />
+        <module name="publication-service" />
         <module name="auth-service" />
         <module name="comprehension-service" />
         <module name="medicorum" />
@@ -20,6 +21,7 @@
       <module name="discorvery-service" target="1.8" />
       <module name="discussion-service" target="1.8" />
       <module name="medicorum" target="8" />
+      <module name="publication-service" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -28,6 +30,7 @@
       <module name="comprehension-service" options="-parameters" />
       <module name="discorvery-service" options="-parameters" />
       <module name="discussion-service" options="-parameters" />
+      <module name="publication-service" options="-parameters" />
     </option>
   </component>
 </project>

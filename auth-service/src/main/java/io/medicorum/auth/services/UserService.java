@@ -3,10 +3,12 @@ package io.medicorum.auth.services;
 import io.medicorum.auth.exceptions.EmailTakenException;
 import io.medicorum.auth.exceptions.ResourceNotFoundException;
 import io.medicorum.auth.exceptions.UsernameTakenException;
+import io.medicorum.auth.messaging.UserEventSender;
 import io.medicorum.auth.models.Role;
 import io.medicorum.auth.models.User;
 import io.medicorum.auth.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +21,16 @@ import java.util.Optional;
 public class UserService {
     private PasswordEncoder passwordEncoder;
     private UserRepository userRepository;
-    //private UserEventSender userEventSender;
+    private UserEventSender userEventSender;
 
+    @Autowired
     public UserService(UserRepository userRepository,
-                       PasswordEncoder passwordEncoder
+                       PasswordEncoder passwordEncoder,
+                       UserEventSender userEventSender
                        ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        //this.userEventSender = userEventSender;
+        this.userEventSender = userEventSender;
     }
 
     public List<User> findAll() {
@@ -65,7 +69,7 @@ public class UserService {
         user.getAssignedRoles().add(Role.USER);
 
         User savedUser = userRepository.save(user);
-        //userEventSender.sendUserCreated(savedUser);
+        userEventSender.sendUserCreated(savedUser);
 
         return savedUser;
     }
@@ -80,7 +84,7 @@ public class UserService {
                     user.getUserProfile().setProfilePictureUrl(uri);
                     User savedUser = userRepository.save(user);
 
-                    //userEventSender.sendUserUpdated(savedUser, oldProfilePic);
+                    userEventSender.sendUserUpdated(savedUser, oldProfilePic);
 
                     return savedUser;
                 })

@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/discorvery-service/discorvery-service.iml" filepath="$PROJECT_DIR$/discorvery-service/discorvery-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/discussion-service/discussion-service.iml" filepath="$PROJECT_DIR$/discussion-service/discussion-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/medicorum.iml" filepath="$PROJECT_DIR$/.idea/medicorum.iml" />
+      <module fileurl="file://$PROJECT_DIR$/publication-service/publication-service.iml" filepath="$PROJECT_DIR$/publication-service/publication-service.iml" />
     </modules>
   </component>
 </project>

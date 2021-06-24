@@ -26,7 +26,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - /c/users/widad/pfeWorkspace/medicorumMongo:/data/db
+      - /f/LegitWorkspace/medicorumMongo:/data/db
 #  neo4j:
 #    image: neo4j:latest
 #    ports:

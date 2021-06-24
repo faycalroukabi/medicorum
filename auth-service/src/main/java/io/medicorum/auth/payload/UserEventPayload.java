@@ -1,5 +1,6 @@
 package io.medicorum.auth.payload;
 
+import io.medicorum.auth.messaging.UserEventType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,5 +14,5 @@ public class UserEventPayload {
     private String displayName;
     private String profilePictureUrl;
     private String oldProfilePicUrl;
-    //private UserEventType eventType;
+    private UserEventType eventType;
 }

@@ -12,7 +12,6 @@ import java.util.List;
 @ToString
 public class ConcreteMedicalRequestDto {
 
-    private String id;
     private String patientId;
     private String doctorId;
     private String discussionId;

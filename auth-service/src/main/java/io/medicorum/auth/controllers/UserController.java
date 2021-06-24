@@ -30,8 +30,9 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
+@RestController("/users")
 @Slf4j
+@CrossOrigin(origins = {"http://localhost:3000","http://127.0.0.1:3000"})
 public class UserController {
 
     @Autowired
@@ -43,7 +44,7 @@ public class UserController {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
-    @PostMapping("/signin")
+    @PostMapping("/authenticate")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
@@ -58,7 +59,7 @@ public class UserController {
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt)); //check payload.JwtAuthenticationResponse
     }
 
-    @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createUser(@Valid @RequestBody SingUpRequest payload) {
         log.info("creating user {}", payload.getUsername());
 
@@ -89,7 +90,7 @@ public class UserController {
     }
 
 
-    @PutMapping("/users/me/picture")
+    @PutMapping("/me/picture")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity <?> updateProfilePicture(
             @RequestBody String profilePicture,

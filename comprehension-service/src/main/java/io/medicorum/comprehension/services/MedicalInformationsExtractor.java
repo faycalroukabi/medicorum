@@ -73,12 +73,12 @@ public class MedicalInformationsExtractor {
         );
         concreteMedicalData.setDoctorId(concreteMedicalRequestDto.getDoctorId());
         concreteMedicalData.setPatientId(concreteMedicalRequestDto.getPatientId());
-
+        concreteMedicalDataRepository.save(concreteMedicalData);
         return concreteMedicalData;
     }
 
     public void extractMedicalInfos(List<Entity> entities, ConcreteMedicalRequestDto concreteMedicalDataDto) {
-        ConcreteMedicalData concreteMedicalData = concreteMedicalDataRepository.findByDiscussionId(concreteMedicalDataDto.getDiscussionId()).orElse(new ConcreteMedicalData());
+        ConcreteMedicalData concreteMedicalData = concreteMedicalDataRepository.findByDiscussionId(concreteMedicalDataDto.getDiscussionId()).orElseGet(ConcreteMedicalData::new);
 
         if (CollectionUtils.isNullOrEmpty(concreteMedicalData.getMedicalInfos())) {
             entities.forEach(entity -> concreteMedicalData.getMedicalInfos().add(extractMedicalInfo(entity)));
