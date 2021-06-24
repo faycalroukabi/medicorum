@@ -1,6 +1,8 @@
 package io.medicorum.auth.models;
 
 
+import ch.qos.logback.classic.Logger;
+
 import java.util.Arrays;
 import java.util.stream.Stream;
 
@@ -12,7 +14,7 @@ public enum Role {
     MODERATOR,
     HEALTHSTUD,
     APPRENTICE,
-    COACH;
+    COACH, SERVICE;
 
     public static Stream<Role> streamPrivileges() {
         return Stream.of(Role.values()).filter(role -> Arrays.asList(USER,HEALTHINST,HEALTHPROF).contains(role) ? false : true);

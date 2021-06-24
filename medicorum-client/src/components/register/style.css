@@ -1,0 +1,204 @@
+.signup-container {
+    position: absolute;
+    width: 1117px;
+    height: 1064px;
+    right: 14.8%;
+    top: 22px;
+    background: #1B7FDB;
+    border-radius: 50%;
+}
+
+.signup-doctor {
+    position: absolute;
+    height: 60%;
+    left: 75%;
+    bottom: -35px;
+    z-index: 50;
+    display: none;
+}
+
+.signup-member {
+    position: absolute;
+    width: 30%;
+    left: -5%;
+    bottom: -35px;
+    z-index: 50;
+    display: none;
+}
+
+.hp-link {
+    position: absolute;
+    top: 650px;
+    right: 190px;
+}
+
+a {
+    color: white;
+    cursor: pointer;
+    z-index: 200;
+    font-size: large;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.memb-message {
+    position: absolute;
+    left: 25%;
+    width: 350px;
+    font-size: xx-large;
+    top: 15%;
+    text-align: right;
+}
+
+.memb-link {
+    position: fixed;
+    bottom: 100px;
+    left: 500px;
+}
+
+.hp-message {
+    position: absolute;
+    left: 10%;
+    width: 370px;
+    font-size: xx-large;
+    top: 15%;
+}
+
+div.hp-container:hover {
+    background: #B6DEF6;
+}
+
+div.member-container:hover {
+    background: #B6DEF6;
+}
+
+div.hp-container:hover>a {
+    color: #1B7FDB;
+}
+
+div.hp-container:hover>p {
+    color: #1B7FDB;
+}
+
+div.member-container:hover>a {
+    color: #1B7FDB;
+}
+
+div.member-container:hover>p {
+    color: #1B7FDB;
+}
+
+.zoomInUp {
+    -webkit-animation-name: zoomInUp;
+    animation-name: zoomInUp;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.hp-container {
+    top: 0;
+    left: 557.5px;
+    position: absolute;
+    width: 559px;
+    height: 100%;
+    display: inline-block;
+    margin: 0 20px 20px 0;
+    border-bottom-right-radius: 1300px;
+    border-top-right-radius: 1300px;
+}
+
+.member-container {
+    top: 0;
+    right: 539px;
+    position: absolute;
+    width: 559px;
+    height: 100%;
+    display: inline-block;
+    margin: 0 20px 20px 0;
+    border-bottom-left-radius: 1300px;
+    border-top-left-radius: 1300px;
+}
+
+.medicorum {
+    position: absolute;
+    width: 342px;
+    height: 60px;
+    right: 7px;
+    top: 20px;
+    z-index: 100;
+}
+
+.zoomInUp {
+    -webkit-animation-name: zoomInUp;
+    animation-name: zoomInUp;
+    -webkit-animation-duration: 0.5s;
+    animation-duration: 0.5s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@-webkit-keyframes zoomInUp {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale3d(.1, .1, .1) translate3d(0, 1000px, 0);
+        transform: scale3d(.1, .1, .1) translate3d(0, 1000px, 0);
+        -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+        animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+    }
+    60% {
+        opacity: 1;
+        -webkit-transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);
+        transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);
+        -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+        animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+    }
+}
+
+@keyframes zoomInUp {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale3d(.1, .1, .1) translate3d(0, 1000px, 0);
+        transform: scale3d(.1, .1, .1) translate3d(0, 1000px, 0);
+        -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+        animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+    }
+    60% {
+        opacity: 1;
+        -webkit-transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);
+        transform: scale3d(.475, .475, .475) translate3d(0, -60px, 0);
+        -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+        animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+    }
+}
+
+.fadeOut {
+    -webkit-animation-name: fadeOut;
+    animation-name: fadeOut;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@-webkit-keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}

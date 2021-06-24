@@ -3,10 +3,10 @@ package io.medicorum.auth.messaging;
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.MessageChannel;
 
-public class UserEventStream {
+public interface UserEventStream {
 
-    String OUTPUT = "momentsUserChanged";
+    String OUTPUT = "medicorumUserChanged";
 
-   /* @Output(OUTPUT)
-    MessageChannel momentsUserChanged();*/
+    @Output( OUTPUT)
+    MessageChannel momentsUserChanged();
 }

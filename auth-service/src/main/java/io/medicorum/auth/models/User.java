@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -27,7 +27,7 @@ import java.util.*;
 @Document
 public class User {
 
-    @MongoId
+    @Id
     private String id;
     @NotBlank
     @Size(max = 16)
@@ -55,25 +55,6 @@ public class User {
     private Profile userProfile;
     private Set<Role> assignedRoles;
 
-    {
-
-        this.privileges = new Privileges();
-        this.assignedRoles = new HashSet();
-        this.roleAssign();
-    }
-
-    public void roleAssign() {
-        this.getAssignedRoles().add(Role.USER);
-        Role.streamPrivileges().filter(role -> {
-            try {
-                return this.privileges.get(StringUtils.lowerCase(role.name()));
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-                return false;
-            }
-        }).forEach(this.getAssignedRoles()::add);
-    }
-
     public User(@NotBlank @Size(max = 16) String username,
                 @NotBlank @Size(max = 350) @Email String email,
                 @NotBlank @Size(max = 256) String password) {
@@ -81,7 +62,6 @@ public class User {
         this.email = email;
         this.password = password;
         this.active = true;
-        this.roleAssign();
     }
 
     public User(@NotBlank @Size(max = 16) String username,
@@ -95,7 +75,6 @@ public class User {
         this.email = email;
         this.password = password;
         this.active = true;
-        this.roleAssign();
     }
 
 
@@ -111,7 +90,6 @@ public class User {
         this.active = user.active;
         this.userProfile = user.userProfile;
         this.assignedRoles = user.assignedRoles;
-        this.roleAssign();
     }
 
 }

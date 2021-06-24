@@ -17,9 +17,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.HttpMethod;
+import java.util.Arrays;
+import java.util.List;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -44,17 +47,24 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
     private String servicePassword;
 
 
-   /* @Override
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
+                .cors().configurationSource(request -> {
+                    CorsConfiguration corsConfiguration = new CorsConfiguration();
+                    corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000","http://127.0.0.1:3000"));
+                    corsConfiguration.setAllowedMethods(Arrays.asList("GET","POST","PUT","OPTIONS","PATCH","DELETE"));
+                    corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
+                    return corsConfiguration;
+                }).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .exceptionHandling().authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 .and()
-                .addFilterBefore(new JwtTokenAuthenticationFilter(serviceUsername, jwtConfiguration, tokenProvider, userService), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtTokenAuthenticationFilter( jwtConfiguration, tokenProvider, userService, serviceUsername), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/signin").permitAll()
-                .antMatchers(HttpMethod.POST, "/users").anonymous()
+                .antMatchers(HttpMethod.POST, "/users/signin").permitAll()
+                .antMatchers(HttpMethod.POST, "/users/register").anonymous()
                 .anyRequest().authenticated();
     }
 
@@ -64,10 +74,10 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication()
                 .withUser(serviceUsername)
                 .password(passwordEncoder().encode(servicePassword))
-                .roles(Role.SERVICE.getName());
+                .roles(Role.SERVICE.name());
 
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    }*/
+    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
