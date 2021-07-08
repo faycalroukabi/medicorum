@@ -3,11 +3,15 @@ package io.medicorum.auth.messaging;
 import io.medicorum.auth.models.User;
 import io.medicorum.auth.payload.UserEventPayload;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 @Slf4j
+@Service
 public class UserEventSender {
 
     private UserEventStream channels;
@@ -44,7 +48,7 @@ public class UserEventSender {
                         .setHeader(KafkaHeaders.MESSAGE_KEY, payload.getId())
                         .build();
 
-        channels.momentsUserChanged().send(message);
+        channels.medicorumUserChanged().send(message);
 
         log.info("user event {} sent to topic {} for user {}",
                 message.getPayload().getEventType().name(),

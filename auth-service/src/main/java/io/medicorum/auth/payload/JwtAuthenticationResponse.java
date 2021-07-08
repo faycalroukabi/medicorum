@@ -4,8 +4,6 @@ import com.mongodb.lang.NonNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import lombok.RequiredArgsConstructor;
-
 @Data
 @AllArgsConstructor
 public class JwtAuthenticationResponse {
@@ -15,5 +13,6 @@ public class JwtAuthenticationResponse {
     private String tokenType = "Bearer";
 
     public JwtAuthenticationResponse(String jwt) {
+        this.accessToken = jwt;
     }
 }

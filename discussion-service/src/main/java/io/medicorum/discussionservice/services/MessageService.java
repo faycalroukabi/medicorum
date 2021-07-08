@@ -1,7 +1,5 @@
 package io.medicorum.discussionservice.services;
 
-import io.medicorum.discussionservice.dtos.MessageDto;
-import io.medicorum.discussionservice.mappers.MessageMapper;
 import io.medicorum.discussionservice.models.Message;
 import io.medicorum.discussionservice.models.MessageStatus;
 import io.medicorum.discussionservice.repositories.MessageRepository;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class MessageService {
@@ -26,26 +23,31 @@ public class MessageService {
     @Autowired
     private MongoOperations mongoOperations;
 
-    public MessageDto save(MessageDto messageDto){
-        messageDto.setStatus(MessageStatus.RECEIVED);
-        messageRepository.save(MessageMapper.mapMessage(messageDto));
-        return messageDto;
+    public Message save(Message message){
+        message.setStatus(MessageStatus.RECEIVED);
+        return messageRepository.save(message);
     }
 
-    public List<MessageDto> findChatMessages(String senderId, String recipientId){
-        Optional<String> discussion = discussionService.getChatId(senderId,recipientId, false);
+    public List<Message> findChatMessages(String senderId, String recipientId){
+        Optional<String> discussion = discussionService.getChatId(senderId,recipientId, true);
         List<Message> messages = discussion.map(discId -> messageRepository.findByDiscussionId(discId)).orElse(new ArrayList<>());
         if(messages.size()>0){
             updateMessagesStatus(senderId,recipientId,MessageStatus.DELIVERED);
         }
-        return messages.stream().map(MessageMapper::mapMessageDto).collect(Collectors.toCollection(ArrayList::new));
+        return messages;
     }
-
     private void updateMessagesStatus(String senderId, String recipientId, MessageStatus status) {
         Query query = new Query(Criteria.where("senderId").is(senderId).and("recipientId").is(recipientId));
         Update update = Update.update("status",status);
-        mongoOperations.updateMulti(query,update,MessageStatus.class);
+        mongoOperations.updateMulti(query,update,"message");
     }
 
 
+    public Long countNewMessages(String senderId, String recipientId) {
+        return new Long(100);
+    }
+
+    public Message findById(String id) {
+        return new Message();
+    }
 }

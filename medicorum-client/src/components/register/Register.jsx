@@ -27,14 +27,14 @@ export default function Register() {
   const handleMbMouseLeave = () => {
     document.getElementById("signup-member").className="signup-member fadeOut"
   }
-  const prepareHPReg = () => {history.push("")};
-  const prepareMembReg = () => {history.push("")};
+  const prepareHPReg = () => {history.push("/registerhp")};
+  const prepareMembReg = () => {history.push("/registermember")};
   return (
     <div className="reg">
       <img src={logo} id="medicorum" className="medicorum" />
       <div className="signup-container">
         <div className="member-container" onMouseEnter={handleMbTouch} onMouseLeave={handleMbMouseLeave}>
-          <p className="memb-message"> 
+          <p className="memb-message paragraphs"> 
             Join today to get a clearer insignt on the progress of your health from verified healthcare professionals.
             Become part of Medicorum community and contribute to spread health awareness.
           </p>
@@ -43,7 +43,7 @@ export default function Register() {
           </a>
         </div>
         <div className="hp-container"  onMouseEnter={handleHpTouch} onMouseLeave={handleHpMouseLeave}>
-          <p className="hp-message">
+          <p className="hp-message paragraphs">
             Become more in touch with your clients, and have a better understanding of their health thanks to advanced tools that you will have access to as a healthcare professional.
           </p>
           <a className="hp-link" onClick={prepareHPReg} >

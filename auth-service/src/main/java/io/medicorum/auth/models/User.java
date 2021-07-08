@@ -47,7 +47,6 @@ public class User {
     @JsonIgnore
     private String password;
     private Boolean active;
-    private Privileges privileges;
     @CreatedDate
     private Instant createdAt;
     @LastModifiedDate

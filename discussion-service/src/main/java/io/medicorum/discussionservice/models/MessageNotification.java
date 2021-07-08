@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MessageNotificaton {
+public class MessageNotification {
     private String id;
     private String senderId;
     private String senderUsername;

@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @Document
 public class Discussion {
-    @MongoId
+    @Id
     private String discussionId;
     private String senderId;
     private String recipientId;
