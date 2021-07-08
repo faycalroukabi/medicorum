@@ -12,14 +12,17 @@ import io.medicorum.comprehension.models.MedicalInfo;
 import io.medicorum.comprehension.models.MedicalInfosCategory;
 import io.medicorum.comprehension.models.MedicalInfosType;
 import io.medicorum.comprehension.repositories.ConcreteMedicalDataRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class MedicalInformationsExtractor {
 
     @Autowired
@@ -60,37 +63,16 @@ public class MedicalInformationsExtractor {
         return medicalInfo;
     }
 
-    public ConcreteMedicalData createNewComprehensionContext(ConcreteMedicalRequestDto concreteMedicalRequestDto) {
-        ConcreteMedicalData concreteMedicalData = new ConcreteMedicalData();
-        Optional.ofNullable(concreteMedicalRequestDto.getMessageText()).ifPresent(
-                txt -> {
-                    extractMedicalInfos(getComprehensionResults(txt), concreteMedicalRequestDto);
-                    concreteMedicalData.setDiscussionId(concreteMedicalRequestDto.getDiscussionId());
-                }
-        );
-        Optional.ofNullable(concreteMedicalRequestDto.getAllowVisibility()).ifPresent(
-                visibility -> concreteMedicalData.setAllowVisibility(visibility)
-        );
-        concreteMedicalData.setDoctorId(concreteMedicalRequestDto.getDoctorId());
-        concreteMedicalData.setPatientId(concreteMedicalRequestDto.getPatientId());
-        concreteMedicalDataRepository.save(concreteMedicalData);
-        return concreteMedicalData;
-    }
 
-    public void extractMedicalInfos(List<Entity> entities, ConcreteMedicalRequestDto concreteMedicalDataDto) {
-        ConcreteMedicalData concreteMedicalData = concreteMedicalDataRepository.findByDiscussionId(concreteMedicalDataDto.getDiscussionId()).orElseGet(ConcreteMedicalData::new);
 
-        if (CollectionUtils.isNullOrEmpty(concreteMedicalData.getMedicalInfos())) {
-            entities.forEach(entity -> concreteMedicalData.getMedicalInfos().add(extractMedicalInfo(entity)));
-        } else {
+    public ConcreteMedicalData extractMedicalInfos(ConcreteMedicalRequestDto concreteMedicalDataDto) {
+        ConcreteMedicalData concreteMedicalData = concreteMedicalDataRepository.findByDiscussionId(concreteMedicalDataDto.getDiscussionId()).orElseGet(()->ConcreteMedicalData.builder().discussionId(concreteMedicalDataDto.getDiscussionId()).doctorId(concreteMedicalDataDto.getDoctorId()).patientId(concreteMedicalDataDto.getPatientId()).medicalInfos(new ArrayList<>()).allowVisibility(true).build());
+        List<Entity> entities = getComprehensionResults(concreteMedicalDataDto.getMessageText());
+        log.info(String.valueOf(entities));
+        concreteMedicalData.setMedicalInfos(new ArrayList<>());
+        entities.stream().forEach(entity -> concreteMedicalData.getMedicalInfos().add(extractMedicalInfo(entity)));
 
-            entities.stream().filter(
-                    entity -> concreteMedicalData.getMedicalInfos().stream().noneMatch(
-                            medicalInfo -> compareMedicalInfos(entity, medicalInfo)
-
-                    )
-            ).forEach(entity -> concreteMedicalData.getMedicalInfos().add(extractMedicalInfo(entity)));
-        }
+        return concreteMedicalDataRepository.save(concreteMedicalData);
     }
 
     public Boolean compareMedicalInfos(Entity entity, MedicalInfo medicalInfo) {

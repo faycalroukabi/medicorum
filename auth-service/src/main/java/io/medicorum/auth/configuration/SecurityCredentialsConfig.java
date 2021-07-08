@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.HttpMethod;
@@ -49,22 +50,15 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .cors().configurationSource(request -> {
-                    CorsConfiguration corsConfiguration = new CorsConfiguration();
-                    corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000","http://127.0.0.1:3000"));
-                    corsConfiguration.setAllowedMethods(Arrays.asList("GET","POST","PUT","OPTIONS","PATCH","DELETE"));
-                    corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
-                    return corsConfiguration;
-                }).and()
+        http.cors().and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .exceptionHandling().authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 .and()
                 .addFilterBefore(new JwtTokenAuthenticationFilter( jwtConfiguration, tokenProvider, userService, serviceUsername), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/users/signin").permitAll()
-                .antMatchers(HttpMethod.POST, "/users/register").anonymous()
+                .antMatchers(HttpMethod.POST, "/users/authenticate").permitAll()
+                .antMatchers(HttpMethod.POST, "/users/register").permitAll()
                 .anyRequest().authenticated();
     }
 

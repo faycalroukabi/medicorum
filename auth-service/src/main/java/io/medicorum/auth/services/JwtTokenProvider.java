@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 
 import io.jsonwebtoken.*;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -31,7 +34,8 @@ public class JwtTokenProvider {
             Jwts.parser().setSigningKey(jwtConfiguration.getSecret().getBytes()).parseClaimsJws(token);
             return true;
         } catch (SignatureException ex) {
-            log.error("Invalid JWT signature");
+            log.info(token);
+            log.error(ex.getMessage());
         } catch (MalformedJwtException ex) {
             log.error("Invalid JWT token");
         } catch (ExpiredJwtException ex) {
@@ -52,12 +56,20 @@ public class JwtTokenProvider {
     public String generateToken(Authentication authentication) {
 
         Long now = System.currentTimeMillis();
+        log.info(Jwts.builder()
+                .setSubject(authentication.getName())
+                .claim("authorities", authentication.getAuthorities().stream()
+                        .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                .setIssuedAt(new Date(now))
+                .setExpiration(new Date(now + jwtConfiguration.getExpiration()))
+                .signWith(SignatureAlgorithm.HS512, jwtConfiguration.getSecret().getBytes())
+                .compact());
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim("authorities", authentication.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .setIssuedAt(new Date(now))
-                .setExpiration(new Date(now + jwtConfiguration.getExpiration() * 1000))
+                .setExpiration(new Date(now + jwtConfiguration.getExpiration()))
                 .signWith(SignatureAlgorithm.HS512, jwtConfiguration.getSecret().getBytes())
                 .compact();
     }

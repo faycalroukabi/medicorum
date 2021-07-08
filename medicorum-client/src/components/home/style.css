@@ -77,7 +77,7 @@ h2 {
     z-index: 100;
 }
 
-p {
+.paragraphs {
     position: absolute;
     width: 400px;
     left: 500px;

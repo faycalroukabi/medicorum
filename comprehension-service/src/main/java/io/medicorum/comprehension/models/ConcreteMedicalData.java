@@ -1,6 +1,7 @@
 package io.medicorum.comprehension.models;
 
 import com.mongodb.lang.NonNull;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Document
+@Builder
 public class ConcreteMedicalData {
     @MongoId
     private String id;

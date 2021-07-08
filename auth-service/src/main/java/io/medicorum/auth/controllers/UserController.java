@@ -20,7 +20,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -30,9 +30,10 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController("/users")
+@RestController
+@RequestMapping("/users")
+@CrossOrigin("*")
 @Slf4j
-@CrossOrigin(origins = {"http://localhost:3000","http://127.0.0.1:3000"})
 public class UserController {
 
     @Autowired
@@ -56,7 +57,7 @@ public class UserController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt)); //check payload.JwtAuthenticationResponse
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
 
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -71,6 +72,7 @@ public class UserController {
                 .userProfile(Profile
                         .builder()
                         .displayName(payload.getName())
+                        .profilePictureUrl(payload.getImageUrl())
                         .build())
                 .build();
 
@@ -114,6 +116,8 @@ public class UserController {
     }
 
     @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin("*")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<?> findAll() {
         log.info("retrieving all users");
 
@@ -122,9 +126,9 @@ public class UserController {
     }
 
     @GetMapping(value = "/users/me", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('USER')")
     @ResponseStatus(HttpStatus.OK)
-    public UserSummary getCurrentUser(@AuthenticationPrincipal MedicorumUserDetails medicorumUserDetails) {
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public UserSummary getCurrentUser(@AuthenticationPrincipal  MedicorumUserDetails medicorumUserDetails) {
         return UserSummary
                 .builder()
                 .id(medicorumUserDetails.getId())

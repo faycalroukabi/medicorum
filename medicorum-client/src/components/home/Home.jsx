@@ -10,10 +10,15 @@ import {
   faEye,
   faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
+import { notification } from "antd";
 import { useHistory } from "react-router-dom";
-import { Widget } from "react-chat-widget"
+import { login } from "../../services/ApiCalls";
+import { useState } from "react";
+
 
 export default function Home() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const history = useHistory();
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -66,6 +71,31 @@ export default function Home() {
     }
   };
 
+  const handleLogin = (e) => {
+    e.preventDefault();
+    login({username,password})
+      .then((response) => {
+        console.log(response)
+        localStorage.setItem("accessToken", JSON.stringify(response.accessToken));
+        history.push("/chat");
+      })
+      .catch((error) => {
+        if (error.status === 401) {
+          notification.error({
+            message: "Error",
+            description: "Username or Password is incorrect. Please try again!",
+          });
+        } else {
+          notification.error({
+            message: "Error",
+            description:
+              error.message || "Sorry! Something went wrong. Please try again!",
+          });
+        }
+      });
+  }
+  
+
   return (
     <div className="outer-container">
       <img
@@ -76,15 +106,21 @@ export default function Home() {
       <div id="login-container" className="login-container slideInUp">
         <h1>Already a member?</h1>
         <h2>Sign-in here</h2>
-        <form className="fadeIn">
+        <form className="fadeIn" onSubmit={handleLogin}>
           <input
             className="user-id fadeIn"
+            name="username"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
             type="text"
             placeholder="E-mail / Username"
           />
           <input
             id="user-pwd"
             className="user-pwd fadeIn"
+            name="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
             type="password"
             placeholder="Password"
           />
@@ -106,11 +142,11 @@ export default function Home() {
       </div>
       <div id="info-container" className="info-container slideInUp">
         <div id="info-body">
-          <p className="intro fadeIn">
+          <p className="intro paragraphs fadeIn">
             A social network where you get to interact with healthcare
             professionals.
           </p>
-          <p className="ssah fadeIn">Stay safe & healthy!</p>
+          <p className="ssah paragraphs fadeIn">Stay safe & healthy!</p>
 
           <button className="join-us fadeIn ripple" onClick={prepareRegister}>
             <FontAwesomeIcon icon={faHandPointRight} /> Join us

@@ -1,10 +1,14 @@
 package io.medicorum.auth.services;
 
 import io.medicorum.auth.models.MedicorumUserDetails;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MedicorumUserDetailsService implements UserDetailsService {
 
     private UserService userService;

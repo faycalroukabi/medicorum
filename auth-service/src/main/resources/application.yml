@@ -14,8 +14,8 @@ spring:
             key:
               serializer: org.apache.kafka.common.serialization.StringSerializer
       bindings:
-        momentsUserChanged:
-          destination: moments.user.changed
+        medicorumUserChanged:
+          destination: medicorum.user.changed
           contentType: application/json
 
 server:
@@ -25,3 +25,23 @@ eureka:
   client:
     service-url:
       default-zone: http://localhost:8761/eureka
+
+
+security:
+  basic:
+    enable: false
+
+  jwt:
+    uri: /auth/**
+    header: Authorization
+    prefix: Bearer
+    expiration: 86400000
+    secret: JwtSecretKey
+
+  service:
+    username: serviceusername
+    password: servicepassword
+
+  oauth2:
+    resource:
+      filter-order: 3

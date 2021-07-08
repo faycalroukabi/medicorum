@@ -9,8 +9,10 @@ import java.util.Optional;
 
 @Service
 public class DiscussionService {
+
     @Autowired
     private DiscussionRepository discussionRepository;
+
     public Optional<String> getChatId(String senderId, String recipientId,boolean createIfNotExist){
         return Optional.ofNullable(discussionRepository.findBySenderIdAndRecipientId(senderId,recipientId)
                 .map(Discussion::getDiscussionId)
