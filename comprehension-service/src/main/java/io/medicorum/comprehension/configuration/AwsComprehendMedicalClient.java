@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AwsComprehendMedicalClient {
-    private static final String AWS_ACCESS_KEY = "AKIAUKOZKSTLWTSYJJRG";
-    private static final String AWS_SECRET_KEY = "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";
+    private static final String AWS_ACCESS_KEY = "";
+    private static final String AWS_SECRET_KEY = "";
     private static final String AWS_REGION = "us-east-2";
     private static final AWSCredentials AWS_CREDS = new BasicAWSCredentials(AWS_ACCESS_KEY,AWS_SECRET_KEY);
     private static final AWSCredentialsProvider AWS_CREDS_PROVIDER = new AWSStaticCredentialsProvider(AWS_CREDS);
